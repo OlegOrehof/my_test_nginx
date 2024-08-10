@@ -5,7 +5,9 @@ env:
     AWS_DEFAULT_REGION: "us-east-2"
     AWS_ACCOUNT_ID    : "112298774548"
     ECR_REPO_NAME     : "my_test_nginx"
+    ECR_IMAGE_URI     : "112298774548.dkr.ecr.us-east-2.amazonaws.com/my_test_nginx:latest"
     ECR_IMAGE_TAG     : "latest"
+    ECS_CONTANER_NAME : "MyNginxContainer"
 
 phases:
   install:
@@ -21,7 +23,7 @@ phases:
 
   build:
     commands:
-      - echo '[{"name":"MyContainerName","imageUri":"MyImageURI"}]' > imagedefinitions.json
+      - echo '[{"name":$ECS_CONTANER_NAME,"imageUri":$ECR_IMAGE_URI}]' > imagedefinitions.json
 
       - echo Building the Docker image...
       - docker build -t $ECR_REPO_NAME:$ECR_IMAGE_TAG .
