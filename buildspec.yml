@@ -33,3 +33,7 @@ phases:
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$ECR_IMAGE_TAG
         # docker push 112298774548.dkr.ecr.us-east-2.amazonaws.com/my_test_nginx:latest
+
+artifacts:
+  files:
+    - '**/*'
