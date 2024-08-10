@@ -15,3 +15,4 @@ COPY ./awslogo.png  /usr/share/nginx/html/awslogo.png
 
 # Запускаем Nginx при старте контейнера
 # CMD ["nginx", "-g", "daemon off;"]
+# CMD ["/usr/share/nginx", "-D", "FOREGROUND"]
