@@ -21,6 +21,8 @@ phases:
 
   build:
     commands:
+      - echo '[{"name":"MyContainerName","imageUri":"MyImageURI"}]' > imagedefinitions.json
+
       - echo Building the Docker image...
       - docker build -t $ECR_REPO_NAME:$ECR_IMAGE_TAG .
         # docker build -t my_test_nginx:latest .
@@ -36,4 +38,4 @@ phases:
 
 artifacts:
   files:
-    - '**/*'
+    - imagedefinitions.json
