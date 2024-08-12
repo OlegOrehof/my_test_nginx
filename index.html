@@ -1,14 +1,38 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Моя первая страница</title>
+    <title>Страница с настраиваемыми шрифтами и картинкой</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            font-weight: 700;
+            color: #333;
+        }
+        p {
+            font-weight: 400;
+            color: #666;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Добро пожаловать на мою страницу!!!</h1>
-    <p>Это пример простой HTML-страницы с картинкой.</p>
-    <img src="butterfly.png" width=200><hr>
+    <h1>Привет, мир!</h1>
+    <p>Это пример HTML-страницы с настраиваемыми шрифтами и картинкой.</p>
+    <img src="/my_test_nginx/butterfly.png" width=200 alt="Описание картинки">
 </body>
 </html>
+
