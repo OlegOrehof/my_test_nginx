@@ -1,18 +1,67 @@
-# Этот Dockerfile использует официальный образ Nginx
-# Порты 80 и 443 открыты для доступа к веб-серверу
-# Команда CMD запускает Nginx в режиме, когда он не переходит в фоновый режим
+FROM php:7.3-fpm-alpine
 
-# Используем официальный образ Nginx
-FROM nginx:latest
+# Install dev dependencies
+RUN apk add --no-cache --virtual .build-deps \
+    $PHPIZE_DEPS \
+    curl-dev \
+    imagemagick-dev \
+    libtool \
+    libxml2-dev \
+    postgresql-dev \
+    sqlite-dev \
+    automake
 
-# Копируем статические файлы сайта
-COPY ./index.html   /usr/share/nginx/html/index.html
-COPY ./garfield.jpg  /usr/share/nginx/html/garfield.jpg
+# Install production dependencies
+RUN apk add --no-cache \
+    bash \
+    curl \
+    g++ \
+    gcc \
+    git \
+    imagemagick \
+    libc-dev \
+    libpng-dev \
+    make \
+    mysql-client \
+    openssh-client \
+    postgresql-libs \
+    rsync \
+    zlib-dev \
+    libzip-dev
 
-# Открываем порты для взаимодействия с контейнером
-# EXPOSE 80
-# EXPOSE 443
+# Install PECL and PEAR extensions
+RUN pecl install \
+    imagick
 
-# Запускаем Nginx при старте контейнера
-# CMD ["nginx", "-g", "daemon off;"]
-# CMD ["/usr/share/nginx", "-D", "FOREGROUND"]
+# Install and enable php extensions
+RUN docker-php-ext-enable \
+    imagick
+
+RUN docker-php-ext-configure zip --with-libzip
+RUN docker-php-ext-install \
+    curl \
+    mbstring \
+    pdo \
+    pdo_mysql \
+    pdo_pgsql \
+    pdo_sqlite \
+    pcntl \
+    tokenizer \
+    xml \
+    gd \
+    zip \
+    bcmath \
+    mysqli
+
+# Add custom configuration
+ARG CUSTOM_INI=/usr/local/etc/php/conf.d/custom.ini
+RUN echo "upload_max_filesize = 64M" >> ${CUSTOM_INI}
+RUN echo "memory_limit = 1024M" >> ${CUSTOM_INI}
+RUN echo "max_execution_time = 300" >> ${CUSTOM_INI}
+
+
+# Enable errors
+RUN echo "error_log = \"/var/log/error.log\"" >> ${CUSTOM_INI}
+RUN echo "error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE" >> ${CUSTOM_INI}
+RUN echo "display_errors = On" >> ${CUSTOM_INI}
+RUN echo "display_startup_errors = On" >> ${CUSTOM_INI}
