@@ -7,7 +7,7 @@ FROM nginx:latest
 
 # Копируем статические файлы сайта
 COPY ./index.html   /usr/share/nginx/html/index.html
-COPY ./butterfly.png.jpg  /usr/share/nginx/html/butterfly.png
+COPY ./butterfly.png  /usr/share/nginx/html/butterfly.png
 
 # Открываем порты для взаимодействия с контейнером
 # EXPOSE 80
